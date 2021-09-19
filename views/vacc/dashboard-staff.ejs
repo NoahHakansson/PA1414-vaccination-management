@@ -1,0 +1,60 @@
+<%- include("basic-header", {title: title}); %>
+
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li class="list-item-active"><a href="/vacc/dashboard">Home</a></li>
+        <li><a href="/vacc/dashboard/patients">Patients</a></li>
+        <li><a href="/vacc/dashboard/settings">Settings</a></li>
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+      <div id="contentWrapper">
+        <article id="showCase">
+            <div class="article-header">Hello <%= res[0].name %>,
+                how are you today?</div>
+          <section>
+            Some text or some stuffs here
+          </section>
+
+          <section>
+            Some more stuff here
+          </section>
+
+          <section>
+            Some more stuff here
+          </section>
+
+          <section>
+            Some more stuff here
+          </section>
+        </article>
+
+        <article id="links">
+          <section>
+            <a href="#">link</a>
+
+            <a href="#">link</a>
+
+            <a href="#">link</a>
+
+            <a href="#">link</a>
+          </section>
+        </article>
+
+        <article>
+          <div class="article-header">Inspiration can be the key</div>
+          <section>
+            Some of my pens may not show some way of doing something smart on the web, but instead give some inspiration to another design or something based on what I made.<br /><br />
+
+            Feel free to follow me on any of the social medias of the web and see what else I'm creating!
+          </section>
+        </article>
+      </div>
+    </div>
+</div>
+
+<%- include("footer"); %>

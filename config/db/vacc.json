@@ -1,0 +1,7 @@
+{
+    "host":     "localhost",
+    "user":     "admin",
+    "password": "pass",
+    "database": "vacc",
+    "multipleStatements": true
+}

@@ -1,0 +1,40 @@
+<%- include("header", {title: title}); %>
+
+<h1>Product view</h1>
+
+<p>Here are the products.</p>
+
+<p><i>To output the content of the account table.</i></p>
+
+<pre><%= JSON.stringify(res, null, 4) %></pre>
+
+<!--TODO: remove password and salt after testing is done-->
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Salt</th>
+    </tr>
+<% for (const row of res) { %>
+    <tr>
+        <td><%= row.user_id %></a></td>
+        <td><%= row.firstname %> <%= row.lastname %></td>
+        <td><%= row.role %></td>
+        <td><%= row.username %></td>
+        <td><%= row.password %></td>
+        <td><%= row.salt %></td>
+        <td><a href="/eshop/edit-product/<%= row.user_id %>">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </a>
+        <a href="/eshop/delete-product/<%= row.user_id %>">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </a></td>
+    </tr>
+<% }; %>
+</table>
+
+<%- include("footer"); %>
