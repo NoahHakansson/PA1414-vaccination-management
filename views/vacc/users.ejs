@@ -1,17 +1,25 @@
-<%- include("header", {title: title}); %>
-
-<h1>Product view</h1>
-
-<p>Here are the products.</p>
-
-<p><i>To output the content of the account table.</i></p>
-
-<pre><%= JSON.stringify(res, null, 4) %></pre>
+<%- include("basic-header", {title: title}); %>
 
 <!--TODO: remove password and salt after testing is done-->
 
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li class="list-item-active"><a href="/vacc/dashboard">Home</a></li>
+        <li><a href="/vacc/dashboard/users">Users</a></li>
+        <li><a href="/vacc/dashboard/settings">Settings</a></li>
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+      <div id="contentWrapper">
+        <article>
+          <div class="article-header">Users</div>
+          <section>
 <table>
-    <tr>
+    <tr class="tb-title">
         <th>Id</th>
         <th>Name</th>
         <th>Role</th>
@@ -27,14 +35,20 @@
         <td><%= row.username %></td>
         <td><%= row.password %></td>
         <td><%= row.salt %></td>
-        <td><a href="/eshop/edit-product/<%= row.user_id %>">
+        <td><a href="/vacc/dashboard/users/edit/<%= row.user_id %>">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </a>
-        <a href="/eshop/delete-product/<%= row.user_id %>">
+        <a href="/vacc/dashboard/users/delete/<%= row.user_id %>">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
         </a></td>
     </tr>
 <% }; %>
 </table>
+          </section>
+        </article>
+      </div>
+    </div>
+</div>
+
 
 <%- include("footer"); %>

@@ -17,7 +17,7 @@ const path = require("path");
 const routeVacc = require("./route/vacc.js");
 
 // 24hrs in ms
-const TwoFourHrs = 86400000;
+const TwentyFourHrs = 86400000;
 
 // set up middleware (always first.)
 app.use(middleware.logIncomingToConsole);
@@ -25,7 +25,7 @@ app.use(middleware.logIncomingToConsole);
 app.use(sessions({
     secret: "48879bf5d0a4bd5ba434c8853de85",
     saveUninitialized:true,
-    cookie: { maxAge: TwoFourHrs },
+    cookie: { maxAge: TwentyFourHrs },
     resave: false
 }));
 // cookie-parser middleware

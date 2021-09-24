@@ -136,4 +136,4 @@ DELIMITER ;
 -- add users
 --
 call create_user('Noah','Håkansson','flex','pass');
-call create_admin('Noah','Håkansson','admin','pass');
+call create_admin('Admin','Adminsson','admin','pass');

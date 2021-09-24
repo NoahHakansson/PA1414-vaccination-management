@@ -100,7 +100,7 @@ router.get("/about", (req, res) => {
     res.render("vacc/about", data);
 });
 
-router.get("/users", async (req, res) => {
+router.get("/dashboard/users", async (req, res) => {
     let data = {
         title: "Users | Vaccination managment"
     };

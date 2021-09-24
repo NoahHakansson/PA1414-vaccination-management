@@ -11,6 +11,20 @@ html, body {
   width: 100%;
 }
 
+td{
+    margin: 0px;
+    padding: 10px;
+}
+.tb-title{
+    background-color: #fff;
+}
+tr{
+    background-color: #d3d3d3;
+}
+tr:nth-child(even){
+    background-color: #f4f4f4;
+}
+
 a {
     text-decoration: none;
     color: #1a1a1a;
@@ -305,10 +319,10 @@ section {
 }
 body {
   background: #00d4ff; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #8DC26F, #00d4ff);
-  background: -moz-linear-gradient(right, #8DC26F, #00d4ff);
-  background: -o-linear-gradient(right, #8DC26F, #00d4ff);
-  background: linear-gradient(to left, #8DC26F, #00d4ff);
+  background: -webkit-linear-gradient(right, #00dd93, #00d4ff);
+  background: -moz-linear-gradient(right, #00dd93, #00d4ff);
+  background: -o-linear-gradient(right, #00dd93, #00d4ff);
+  background: linear-gradient(to left, #00dd93, #00d4ff);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
