@@ -12,6 +12,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 //variables
 var session;
 
+// Main dashboard
 router.get("/dashboard", async (req,res) => {
     let data = {
         title: "Welcome | Vaccination managment"
@@ -42,6 +43,41 @@ router.get("/dashboard", async (req,res) => {
         console.log("!!! Not logged in, redirecting to login");
         res.redirect("/vacc/login");
     }
+});
+
+// Dashboard users page
+router.get("/dashboard/users", async (req, res) => {
+    let data = {
+        title: "Users | Vaccination managment"
+    };
+
+    session=req.session;
+    if(session.userid){
+        data.res = await vacc.userRole(session.userid);
+        try {
+            if (data.res[0].role == "staff") {
+                console.log("!!! user is STAFF, cant acces users, redirecting");
+                res.redirect("/vacc/dashboard");
+            }
+            else if(data.res[0].role == "admin"){
+                data.res = await vacc.showUsers();
+                console.log("showing users");
+                res.render("vacc/users", data);
+            }
+            else{
+                console.log("!!! Cant find role, logging out user.");
+                res.redirect("/vacc/logout");
+            }
+        } catch (e) {
+            /* handle error */
+            console.log("!!! Error cought, redirecting to dashboard.");
+            res.redirect("/vacc/dashboard");
+        }
+    }else{
+        console.log("!!! no session, redirecting to login.");
+        res.redirect("/vacc/login");
+    }
+
 });
 
 router.post("/user", urlencodedParser, async (req,res) => {
@@ -98,18 +134,6 @@ router.get("/about", (req, res) => {
     };
 
     res.render("vacc/about", data);
-});
-
-router.get("/dashboard/users", async (req, res) => {
-    let data = {
-        title: "Users | Vaccination managment"
-    };
-
-    data.res = await vacc.showUsers();
-    console.log(data.res[0].role);
-    console.log(data.res[1].role);
-    console.log("test test test");
-    res.render("vacc/users", data);
 });
 
 module.exports = router;
