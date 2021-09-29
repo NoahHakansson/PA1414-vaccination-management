@@ -8,6 +8,9 @@ module.exports = {
     showUsers: showUsers,
     showPatients: showPatients,
     updatePatient: updatePatient,
+    createAdmin: createAdmin,
+    createUser: createUser,
+    createPatient: createPatient,
     userRole: userRole
 };
 

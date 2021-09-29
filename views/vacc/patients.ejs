@@ -4,7 +4,7 @@
   <div id="leftWrapper">
       <div id="listView" class="list">
         <li class="list-item-active"><a href="/vacc/dashboard">Home</a></li>
-        <li><a href="/vacc/dashboard/users">Users</a></li>
+        <li><a href="/vacc/dashboard/patients">Patients</a></li>
         <li><a href="/vacc/dashboard/settings">Settings</a></li>
         <li><a href="/vacc/logout">Logout
         <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
@@ -22,6 +22,8 @@
         <th>Name</th>
         <th>Role</th>
         <th>Username</th>
+        <th>Password</th>
+        <th>Salt</th>
     </tr>
 <% for (const row of res) { %>
     <tr>
@@ -29,6 +31,8 @@
         <td><%= row.firstname %> <%= row.lastname %></td>
         <td><%= row.role %></td>
         <td><%= row.username %></td>
+        <td><%= row.password %></td>
+        <td><%= row.salt %></td>
         <td><a href="/vacc/dashboard/users/edit/<%= row.user_id %>">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </a>
