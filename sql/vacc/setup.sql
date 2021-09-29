@@ -19,4 +19,5 @@ GRANT ALL PRIVILEGES
     TO 'admin'@'%'
 ;
 
+SOURCE sql/vacc/ddl.sql;
 -- SHOW GRANTS FOR 'user'@'%';

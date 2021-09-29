@@ -4,10 +4,10 @@
 "use strict";
 
 module.exports = {
-    //sendOrder: sendOrder,
-    //showOrdersSearch: showOrdersSearch,
     userLogin: userLogin,
     showUsers: showUsers,
+    showPatients: showPatients,
+    updatePatient: updatePatient,
     userRole: userRole
 };
 
@@ -47,7 +47,7 @@ async function userRole(user) {
 }
 
 /**
- * handle login and get unique userid back
+ * handle login and get unique encrypted userid back
  *
  * @async
  * @returns {RowDataPacket} Resultset from the query.
@@ -75,6 +75,43 @@ async function showUsers() {
     let res;
 
     res = await db.query(sql);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Show all patients
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function showPatients() {
+    let sql = `CALL show_patients();`;
+    let res;
+
+    res = await db.query(sql);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Update patient data, notes and nr of vaccines taken.
+ * only updates if cookie_id is a match with a user in database.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function updatePatient(patientId, note, cookieId) {
+    let sql = `CALL user_patient(?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[patientId, note, cookieId]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
