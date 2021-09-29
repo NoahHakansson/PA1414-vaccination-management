@@ -83,6 +83,42 @@ async function showUsers() {
 }
 
 /**
+ * Create a new ADMIN user.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function createAdmin(firstname, lastname, username, password) {
+    let sql = `CALL create_patient(?,?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[firstname, lastname, username, password]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Create a new REGULAR user.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function createUser(firstname, lastname, username, password) {
+    let sql = `CALL create_patient(?,?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[firstname, lastname, username, password]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
  * Show all patients
  *
  * @async
@@ -112,6 +148,24 @@ async function updatePatient(patientId, note, cookieId) {
     let res;
 
     res = await db.query(sql,[patientId, note, cookieId]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Create a new patient.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function createPatient(firstname, lastname, pNumber, vacc, note) {
+    let sql = `CALL create_patient(?,?,?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[firstname, lastname, pNumber, vacc, note]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
