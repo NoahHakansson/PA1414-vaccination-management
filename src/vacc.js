@@ -7,6 +7,7 @@ module.exports = {
     userLogin: userLogin,
     showUsers: showUsers,
     showPatients: showPatients,
+    showPatientsSearch: showPatientsSearch,
     updatePatient: updatePatient,
     createAdmin: createAdmin,
     createUser: createUser,
@@ -132,6 +133,24 @@ async function showPatients() {
     let res;
 
     res = await db.query(sql);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Show all patients from search
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function showPatientsSearch(search) {
+    let sql = `CALL show_patients_search(?);`;
+    let res;
+
+    res = await db.query(sql,[search]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);

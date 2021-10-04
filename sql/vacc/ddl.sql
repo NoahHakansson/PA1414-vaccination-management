@@ -60,7 +60,7 @@ DELIMITER ;
 
 
 --
--- Create procedure for select * from patients
+-- Create procedure to show all patients
 --
 DROP PROCEDURE IF EXISTS show_patients;
 DELIMITER ;;
@@ -75,6 +75,30 @@ BEGIN
     total_shots,
     notes
     FROM patients;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to show searched patients by personal_number
+--
+DROP PROCEDURE IF EXISTS show_patients_search;
+DELIMITER ;;
+CREATE PROCEDURE show_patients_search(
+    a_personal_number VARCHAR(256)
+)
+BEGIN
+    SELECT
+    patient_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    personal_number,
+    vaccine,
+    last_vac_date,
+    total_shots,
+    notes
+    FROM patients
+    WHERE personal_number LIKE CONCAT("%", a_personal_number, "%")
+    ;
 END
 ;;
 DELIMITER ;

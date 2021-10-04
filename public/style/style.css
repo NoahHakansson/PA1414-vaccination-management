@@ -11,23 +11,77 @@ html, body {
   width: 100%;
 }
 
+html, body, input, textarea, select, button {
+    border-color: #726a5c;
+    color: #edebe8;
+}
+
 td{
     margin: 0px;
     padding: 10px;
 }
 .tb-title{
-    background-color: #fff;
+  background-color: rgb(19, 21, 22);
 }
 tr{
-    background-color: #d3d3d3;
+  background-color: rgb(45, 49, 51);
 }
 tr:nth-child(even){
-    background-color: #f4f4f4;
+  background-color: rgb(25, 28, 29);
 }
 
 a {
     text-decoration: none;
-    color: #1a1a1a;
+    color: #edebe8;
+}
+
+.search-field {
+  width: 360px;
+  padding: 0px;
+  margin: auto;
+}
+.search {
+  position: relative;
+  z-index: 1;
+  background: rgb(19, 21, 22);
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 14px 14px 0px 14px;
+  border-radius: 20px;
+  margin-top: 50px;
+  margin-bottom: -50px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  box-sizing: content-box;
+}
+.search input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: rgb(26, 29, 30);
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.search #search-button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #00d4ff;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.search #search-button:hover,.search #search-button:active,.search #search-button:focus {
+  background: #00b8dd;
 }
 
 #wrapper {
@@ -45,8 +99,7 @@ a {
   padding: 0;
   width: 15em;
   height: 100%;
-
-  background-color: #1e1e1e;
+  background-color: rgb(19, 21, 22);
 }
 
 #listView {
@@ -87,7 +140,7 @@ a {
   height: 100%;
   overflow-y: scroll;
 
-  background-color: #efefef;
+  background-color: rgb(28, 31, 32);
 
   -webkit-transition: all .20s ease;
   -moz-transition: all .20s ease;
@@ -139,12 +192,11 @@ a {
 article {
   margin-bottom: 20px;
 
-  color: #1e1e1e;
   font-family: sans-serif;
   font-size: 1em;
   text-decoration: none;
 
-  background-color: #fff;
+  background-color: rgb(19, 21, 22);
   border: 1px solid rgba(0,0,0,0.1);
   border-bottom: 2px solid rgba(0,0,0,0.1);
 }
@@ -169,7 +221,6 @@ section {
   padding: 10px;
   vertical-align: top;
 
-  color: #1e1e1e;
   font-family: sans-serif;
   font-size: 1em;
   text-align: center;
@@ -190,7 +241,6 @@ section {
 }
 
 #showCase section a:hover {
-  color: #fff;
   box-shadow: inset 0px -50px #00d4ff;
 }
 
@@ -244,7 +294,7 @@ section {
 .login {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: rgb(19, 21, 22);
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -257,7 +307,7 @@ section {
 .login input {
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #f2f2f2;
+  background: rgb(26, 29, 30);
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -327,3 +377,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.list-table {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+#list-table {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+

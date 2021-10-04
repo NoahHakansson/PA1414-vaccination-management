@@ -45,6 +45,41 @@ router.get("/dashboard", async (req,res) => {
     }
 });
 
+// Dashboard patients page
+router.get("/dashboard/patients", async (req, res) => {
+    let data = {
+        title: "Patients | Vaccination managment"
+    };
+
+    session=req.session;
+    if(session.userid){
+        data.res = await vacc.userRole(session.userid);
+        try {
+            if (data.res[0].role == "admin") {
+                console.log("!!! user is ADMIN, cant acces users, redirecting");
+                res.redirect("/vacc/dashboard");
+            }
+            else if(data.res[0].role == "staff"){
+                data.res = await vacc.showPatients();
+                console.log("showing patients");
+                res.render("vacc/patients", data);
+            }
+            else{
+                console.log("!!! Cant find role, logging out user.");
+                res.redirect("/vacc/logout");
+            }
+        } catch (e) {
+            /* handle error */
+            console.log("!!! Error cought, redirecting to dashboard.");
+            res.redirect("/vacc/dashboard");
+        }
+    }else{
+        console.log("!!! no session, redirecting to login.");
+        res.redirect("/vacc/login");
+    }
+
+});
+
 // Dashboard users page
 router.get("/dashboard/users", async (req, res) => {
     let data = {
@@ -101,6 +136,38 @@ router.post("/user", urlencodedParser, async (req,res) => {
     }
 });
 
+router.post("/dashboard/patients", urlencodedParser, async (req,res) => {
+    let data = {
+        title: "Patient search | Vaccination managment"
+    };
+
+    session=req.session;
+    if(session.userid){
+        data.res = await vacc.userRole(session.userid);
+        try {
+            if (data.res[0].role == "admin") {
+                console.log("!!! user is ADMIN, cant acces users, redirecting");
+                res.redirect("/vacc/dashboard");
+            }
+            else if(data.res[0].role == "staff"){
+                data.res = await vacc.showPatientsSearch(req.body.search);
+                console.log("showing patients");
+                res.render("vacc/patients", data);
+            }
+            else{
+                console.log("!!! Cant find role, logging out user.");
+                res.redirect("/vacc/logout");
+            }
+        } catch (e) {
+            /* handle error */
+            console.log("!!! Error cought, redirecting to dashboard.");
+            res.redirect("/vacc/dashboard");
+        }
+    }else{
+        console.log("!!! no session, redirecting to login.");
+        res.redirect("/vacc/login");
+    }
+});
 router.get("/logout",(req,res) => {
     req.session.destroy();
     res.redirect("/vacc/login");

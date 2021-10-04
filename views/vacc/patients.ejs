@@ -12,27 +12,38 @@
     </div>
 
     <div id="rightWrapper">
-      <div id="contentWrapper">
+
+<div class="search">
+  <form class="search-field" action="/vacc/dashboard/patients" method="POST">
+    <input type="text" name="search" placeholder="Search">
+    <input type="submit" id="search-button" value="Search">
+  </form>
+</div>
+
+      <div class="list-table">
         <article>
-          <div class="article-header">Users</div>
-          <section>
+          <div id="list-table" class="article-header">Patients</div>
+          <section id="list-table">
+
 <table>
     <tr class="tb-title">
         <th>Id</th>
         <th>Name</th>
-        <th>Role</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Salt</th>
+        <th>Personal number</th>
+        <th>Vaccine</th>
+        <th>Last vaccination date</th>
+        <th>Total shots</th>
+        <th>Notes</th>
     </tr>
 <% for (const row of res) { %>
     <tr>
-        <td><%= row.user_id %></a></td>
-        <td><%= row.firstname %> <%= row.lastname %></td>
-        <td><%= row.role %></td>
-        <td><%= row.username %></td>
-        <td><%= row.password %></td>
-        <td><%= row.salt %></td>
+        <td><%= row.patient_id %></td>
+        <td><%= row.name %></td>
+        <td><%= row.personal_number %></td>
+        <td><%= row.vaccine %></td>
+        <td><%= row.last_vac_date %></td>
+        <td><%= row.total_shots %></td>
+        <td><%= row.notes %></td>
         <td><a href="/vacc/dashboard/users/edit/<%= row.user_id %>">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </a>
