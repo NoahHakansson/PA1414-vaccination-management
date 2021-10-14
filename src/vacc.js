@@ -9,9 +9,18 @@ module.exports = {
     showPatients: showPatients,
     showPatientsSearch: showPatientsSearch,
     updatePatient: updatePatient,
+    changeOwnPass: changeOwnPass,
+    adminChangePass: adminChangePass,
     createAdmin: createAdmin,
+    getUsernames: getUsernames,
+    getPersonalNumbers: getPersonalNumbers,
     createUser: createUser,
+    deletePatient: deletePatient,
+    showPatientsId: showPatientsId,
     createPatient: createPatient,
+    showUsersId: showUsersId,
+    showUsersSearch: showUsersSearch,
+    deleteUser: deleteUser,
     userRole: userRole
 };
 
@@ -51,6 +60,42 @@ async function userRole(user) {
 }
 
 /**
+ * user change their own password.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function changeOwnPass(userId, oldPass, newPass) {
+    let sql = `CALL change_own_pass(?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[userId, oldPass, newPass]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * admin change pass for any user.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function adminChangePass(userId, newPass, cookieId) {
+    let sql = `CALL user_login(?,?);`;
+    let res;
+
+    res = await db.query(sql,[userId, newPass, cookieId]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
  * handle login and get unique encrypted userid back
  *
  * @async
@@ -61,6 +106,42 @@ async function userLogin(user, pass) {
     let res;
 
     res = await db.query(sql,[user, pass]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * get all usernames
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function getUsernames() {
+    let sql = `CALL get_usernames();`;
+    let res;
+
+    res = await db.query(sql);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * get all personal numbers
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function getPersonalNumbers() {
+    let sql = `CALL get_personal_numbers();`;
+    let res;
+
+    res = await db.query(sql);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
@@ -93,7 +174,7 @@ async function showUsers() {
  * @returns {RowDataPacket} Resultset from the query.
  */
 async function createAdmin(firstname, lastname, username, password) {
-    let sql = `CALL create_patient(?,?,?,?);`;
+    let sql = `CALL create_admin(?,?,?,?);`;
     let res;
 
     res = await db.query(sql,[firstname, lastname, username, password]);
@@ -105,16 +186,16 @@ async function createAdmin(firstname, lastname, username, password) {
 }
 
 /**
- * Create a new REGULAR user.
+ * Create a new user.
  *
  * @async
  * @returns {RowDataPacket} Resultset from the query.
  */
-async function createUser(firstname, lastname, username, password) {
-    let sql = `CALL create_patient(?,?,?,?);`;
+async function createUser(firstname, lastname, role, username, password) {
+    let sql = `CALL create_user(?,?,?,?,?);`;
     let res;
 
-    res = await db.query(sql,[firstname, lastname, username, password]);
+    res = await db.query(sql,[firstname, lastname, role, username, password]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
@@ -133,6 +214,96 @@ async function showPatients() {
     let res;
 
     res = await db.query(sql);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * delete users from ID
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function deleteUser(id) {
+    let sql = `CALL delete_users_id(?);`;
+    let res;
+
+    res = await db.query(sql,[id]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Show users from ID
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function showUsersId(id) {
+    let sql = `CALL show_users_from_id(?);`;
+    let res;
+
+    res = await db.query(sql,[id]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Show all users from search
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function showUsersSearch(search) {
+    let sql = `CALL show_users_from_search(?);`;
+    let res;
+
+    res = await db.query(sql,[search]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * delete patients from ID
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function deletePatient(id) {
+    let sql = `CALL delete_patients_id(?);`;
+    let res;
+
+    res = await db.query(sql,[id]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Show patients from ID
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function showPatientsId(id) {
+    let sql = `CALL show_patients_from_id(?);`;
+    let res;
+
+    res = await db.query(sql,[id]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
@@ -166,7 +337,7 @@ async function showPatientsSearch(search) {
  * @returns {RowDataPacket} Resultset from the query.
  */
 async function updatePatient(patientId, note, cookieId) {
-    let sql = `CALL user_patient(?,?,?);`;
+    let sql = `CALL update_patient(?,?,?);`;
     let res;
 
     res = await db.query(sql,[patientId, note, cookieId]);

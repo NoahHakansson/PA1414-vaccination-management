@@ -1,0 +1,32 @@
+<%- include("basic-header", {title: title}); %>
+
+<% res = res[0] %>
+
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li><a href="/vacc/dashboard">Home</a></li>
+        <li class="list-item-active"><a href="/vacc/dashboard/users">Users</a></li>
+        <li><a href="/vacc/dashboard/settings">Settings</a></li>
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+
+        <div class="search">
+          <form id="usrform" class="search-field" action="/vacc/dashboard/users/delete" method="POST">
+            <p>Do you want to delete?</p>
+            <input hidden id="name" type="text" name="id" readonly value="<%= res.user_id %>">
+            <input id="name" type="text" name="name" readonly value="<%= res.name %>">
+            <input id="name" type="text" name="name" readonly value="<%= res.role %>">
+            <input type="submit" id="search-button" value="Yes" required>
+            <input type="button" id="search-button" name="cancel" value="No" onClick="window.location.href='/vacc/dashboard/users';" />
+          </form>
+        </div>
+
+    </div>
+</div>
+
+<%- include("footer"); %>

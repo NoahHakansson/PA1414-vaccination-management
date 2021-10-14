@@ -31,8 +31,25 @@ tr:nth-child(even){
 }
 
 a {
-    text-decoration: none;
-    color: #edebe8;
+  text-decoration: none;
+  color: #edebe8;
+}
+
+#add-something {
+  font-size: 65%;
+  margin-left: auto;
+  background-color: rgb(45, 49, 51);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#add-something:hover {
+  background-color: rgb(25, 28, 29);
+
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 .search-field {
@@ -40,7 +57,17 @@ a {
   padding: 0px;
   margin: auto;
 }
+.search textarea {
+  background: rgb(26, 29, 30);
+  color: #edebe8;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 355px;
+}
 .search {
+  display: flex;
+  justify-content: center;
   position: relative;
   z-index: 1;
   background: rgb(19, 21, 22);
@@ -53,6 +80,11 @@ a {
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   box-sizing: content-box;
+
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 .search input {
   font-family: "Roboto", sans-serif;
@@ -76,12 +108,60 @@ a {
   padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  -webkit-transition: all 0.3 ease-in;
+  transition: all 0.3 ease-in;
   cursor: pointer;
+  font-weight: 500;
 }
 .search #search-button:hover,.search #search-button:active,.search #search-button:focus {
   background: #00b8dd;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
+}
+
+.search #cancel-button,.search #fake-button {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: rgb(26, 29, 30);
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #00d4ff;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease-in;
+  transition: all 0.3 ease-in;
+  cursor: pointer;
+  font-weight: 500;
+}
+.search #cancel-button:hover,.search #cancel-button:active,.search #cancel-button:focus,
+.search #fake-button:hover,.search #fake-button:active,.search #fake-button:focus {
+  background: #00b8dd;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
+}
+
+.search #staff,.search #admin {
+  width: auto;
+}
+
+.search p {
+  display: flex;
+  margin: 5px 0px 5px 15px;
 }
 
 #wrapper {
@@ -123,11 +203,6 @@ a {
 
   border-top: 1px solid rgba(0,0,0,0.5);
   border-bottom:1px solid rgba(255,255,255,0.04);
-
-  -webkit-transition: all .20s ease;
-  -moz-transition: all .20s ease;
-  -o-transition: all .20s ease;
-  transition: all .20s ease;
 }
 
 #rightWrapper {
@@ -142,10 +217,10 @@ a {
 
   background-color: rgb(28, 31, 32);
 
-  -webkit-transition: all .20s ease;
-  -moz-transition: all .20s ease;
-  -o-transition: all .20s ease;
-  transition: all .20s ease;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 #header {
@@ -158,10 +233,10 @@ a {
   background-color: #efefef;
   border-bottom:2px solid rgba(0,0,0,0.2);
 
-  -webkit-transition: all .20s ease;
-  -moz-transition: all .20s ease;
-  -o-transition: all .20s ease;
-  transition: all .20s ease;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 #fullPage {
@@ -203,6 +278,11 @@ article {
 
 section {
   padding: 10px;
+  color: #edebe8;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 .article-header {
@@ -226,10 +306,10 @@ section {
   text-align: center;
   text-decoration: none;
 
-  -webkit-transition: all .20s ease;
-  -moz-transition: all .20s ease;
-  -o-transition: all .20s ease;
-  transition: all .20s ease;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 #showCase {
@@ -280,10 +360,10 @@ section {
   border-bottom: 33px solid transparent;
   border-right: 25px solid #00d4ff;
 
-  -webkit-transition: all .20s ease;
-  -moz-transition: all .20s ease;
-  -o-transition: all .20s ease;
-  transition: all .20s ease;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 .login-field {
@@ -303,6 +383,11 @@ section {
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   box-sizing: content-box;
+
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 .login input {
   font-family: "Roboto", sans-serif;
@@ -326,12 +411,16 @@ section {
   padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  -webkit-transition: all 0.3 ease-in;
+  transition: all 0.3 ease-in;
   cursor: pointer;
 }
 .login #login-button:hover,.login #login-button:active,.login #login-button:focus {
   background: #00b8dd;
+  -webkit-transition: all .20s ease-in;
+  -moz-transition: all .20s ease-in;
+  -o-transition: all .20s ease-in;
+  transition: all .20s ease-in;
 }
 
 .container {

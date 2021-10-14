@@ -1,0 +1,94 @@
+<%- include("basic-header", {title: title}); %>
+
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li><a href="/vacc/dashboard">Home</a></li>
+        <li class="list-item-active"><a href="/vacc/dashboard/users">Users</a></li>
+        <li><a href="/vacc/dashboard/settings">Settings</a></li>
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+
+        <div class="search">
+          <form id="usrform" class="search-field" action="/vacc/dashboard/users/add" method="POST">
+            <p>Firstname</p>
+            <input type="text" name="firstname" required>
+            <p>Lastname</p>
+            <input type="text" name="lastname" required>
+            <p>Username</p>
+            <input id="username" type="text" name="username" onkeyup='userCheck();' required>
+            <span style="display: none; color: #cc4747;" id="username_used">Username already in use</span>
+            <p>Password</p>
+            <input id="password" type="password" name="password" onkeyup='check();' required>
+            <p>Repeat Password</p>
+            <input id="confirm_password" type="password" name="confirm_password" onkeyup='check();' required>
+            <span style="display: none; color: #cc4747;" id="password_match">Passwords dont match</span><br>
+            <input type="radio" id="staff" name="role" value="staff" required>
+              <label for="staff">Staff</label>
+            <input type="radio" id="admin" name="role" value="admin" required>
+              <label for="admin">Admin</label>
+            <input type="submit" id="search-button" value="Create" required>
+            <input style="display: none;" type="button" id="fake-button" name="cancel" value="Create">
+          </form>
+        </div>
+
+    </div>
+</div>
+
+ <script type="text/javascript">
+   // get usernames that exist an put them in array names.
+    let arr = <%- JSON.stringify(usernames); %>
+    let names = [];
+    for(var i=0; i < arr.length; i++){
+      names.push(arr[i].username);
+    }
+    console.log(names);
+
+   // checks if username is available
+    var userCheck = function(){
+      if (names.indexOf(document.getElementById('username').value) >= 0) {
+        document.getElementById('username').style.border = 'solid #cc4747 1px';
+        document.getElementById('search-button').style.display = 'none';
+        document.getElementById('fake-button').style.display = 'inline-block';
+        document.getElementById('username_used').style.display = 'inline-block';
+      }
+      else{
+        document.getElementById('username').style.border = 'solid #47cc54 1px';
+        document.getElementById('search-button').style.display = 'inline-block';
+        document.getElementById('fake-button').style.display = 'none';
+        document.getElementById('username_used').style.display = 'none';
+      }
+    }
+
+    var check = function(){
+      if (document.getElementById('password').value ==
+          document.getElementById('confirm_password').value)
+      {
+        document.getElementById('confirm_password').style.border = 'solid #47cc54 1px';
+        document.getElementById('search-button').style.display = 'inline-block';
+        document.getElementById('fake-button').style.display = 'none';
+        document.getElementById('password_match').style.display = 'none';
+      }
+      else if(document.getElementById('password').value == "" ||
+          document.getElementById('confirm_password').value == "")
+      {
+        document.getElementById('confirm_password').style.border = 'none';
+        document.getElementById('search-button').style.display = 'inline-block';
+        document.getElementById('fake-button').style.display = 'none';
+        document.getElementById('password_match').style.display = 'none';
+      }
+      else
+      {
+        document.getElementById('confirm_password').style.border = 'solid #cc4747 1px';
+        document.getElementById('search-button').style.display = 'none';
+        document.getElementById('fake-button').style.display = 'inline-block';
+        document.getElementById('password_match').style.display = 'inline-block';
+      }
+    }
+  </script>
+
+<%- include("footer"); %>

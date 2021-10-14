@@ -53,7 +53,12 @@ DROP PROCEDURE IF EXISTS show_users;
 DELIMITER ;;
 CREATE PROCEDURE show_users()
 BEGIN
-    SELECT * FROM users;
+    SELECT
+    user_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    role,
+    username
+    FROM users;
 END
 ;;
 DELIMITER ;
@@ -75,6 +80,58 @@ BEGIN
     total_shots,
     notes
     FROM patients;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to get all usernames
+--
+DROP PROCEDURE IF EXISTS get_usernames;
+DELIMITER ;;
+CREATE PROCEDURE get_usernames()
+BEGIN
+    SELECT
+    username
+    FROM users;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to get all personal numbers
+--
+DROP PROCEDURE IF EXISTS get_personal_numbers;
+DELIMITER ;;
+CREATE PROCEDURE get_personal_numbers()
+BEGIN
+    SELECT
+    personal_number
+    FROM patients;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to show searched patients by id
+--
+DROP PROCEDURE IF EXISTS show_patients_from_id;
+DELIMITER ;;
+CREATE PROCEDURE show_patients_from_id(
+    a_patient_id INT
+)
+BEGIN
+    SELECT
+    patient_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    personal_number,
+    vaccine,
+    last_vac_date,
+    total_shots,
+    notes
+    FROM patients
+    WHERE patient_id = a_patient_id
+    ;
 END
 ;;
 DELIMITER ;
@@ -104,6 +161,136 @@ END
 DELIMITER ;
 
 --
+-- Create procedure to show searched users
+--
+DROP PROCEDURE IF EXISTS show_users_from_search;
+DELIMITER ;;
+CREATE PROCEDURE show_users_from_search(
+    a_search VARCHAR(256)
+)
+BEGIN
+    SELECT
+    user_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    role,
+    username
+    FROM users
+    WHERE
+        user_id LIKE a_search
+        OR firstname LIKE CONCAT("%", a_search, "%")
+        OR lastname LIKE CONCAT("%", a_search, "%")
+        OR role LIKE CONCAT("%", a_search, "%")
+        OR username LIKE CONCAT("%", a_search, "%")
+    ;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to show searched users by id
+--
+DROP PROCEDURE IF EXISTS show_users_from_id;
+DELIMITER ;;
+CREATE PROCEDURE show_users_from_id(
+    a_user_id INT
+)
+BEGIN
+    SELECT
+    user_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    role,
+    username
+    FROM users
+    WHERE user_id = a_user_id
+    ;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to delete users by id
+--
+DROP PROCEDURE IF EXISTS delete_users_id;
+DELIMITER ;;
+CREATE PROCEDURE delete_users_id(
+    a_user_id INT
+)
+BEGIN
+    DELETE
+    FROM users
+    WHERE user_id = a_user_id
+    ;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure to delete patients by id
+--
+DROP PROCEDURE IF EXISTS delete_patients_id;
+DELIMITER ;;
+CREATE PROCEDURE delete_patients_id(
+    a_patient_id INT
+)
+BEGIN
+    DELETE
+    FROM patients
+    WHERE patient_id = a_patient_id
+    ;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure for users updating their own passwords.
+--
+DROP PROCEDURE IF EXISTS change_own_pass;
+DELIMITER ;;
+CREATE PROCEDURE change_own_pass(
+    a_user_id INT,
+    a_old_pass VARCHAR(256),
+    a_new_pass VARCHAR(256)
+)
+BEGIN
+    UPDATE users
+    SET
+    password = IF(password = SHA2(CONCAT(a_old_pass,salt), 256),
+        SHA2(CONCAT(a_new_pass,salt), 256), password)
+    WHERE
+    user_id = a_user_id
+    ;
+END
+;;
+DELIMITER ;
+
+--
+-- Create procedure for admin updating users passwords.
+--
+DROP PROCEDURE IF EXISTS admin_change_pass;
+DELIMITER ;;
+CREATE PROCEDURE admin_change_pass(
+    a_user_id INT,
+    a_password VARCHAR(256),
+    cookie_id VARCHAR(256)
+)
+BEGIN
+    DECLARE user_role VARCHAR(5);
+    SET user_role =
+    (select role
+        from users
+        where SHA2(CONCAT(username,salt),256) = cookie_id);
+
+    UPDATE users
+    SET
+    password = IF(user_role = "admin", SHA2(CONCAT(a_password,salt), 256), password)
+    WHERE
+    user_id = a_user_id
+    ;
+END
+;;
+DELIMITER ;
+
+--
 -- Create procedure for updating patient data.
 --
 DROP PROCEDURE IF EXISTS update_patient;
@@ -114,17 +301,17 @@ CREATE PROCEDURE update_patient(
     cookie_id VARCHAR(256)
 )
 BEGIN
-    DECLARE user_coookie_id VARCHAR(256);
-    SET user_coookie_id =
-    (select SHA2(CONCAT(username,salt),256)
+    DECLARE user_role VARCHAR(5);
+    SET user_role =
+    (select role
         from users
         where SHA2(CONCAT(username,salt),256) = cookie_id);
 
     UPDATE patients
     SET
-    notes = IF(cookie_id = user_coookie_id, a_notes, notes),
-    last_vac_date = IF(cookie_id = user_coookie_id, NOW(), last_vac_date),
-    total_shots = IF(cookie_id = user_coookie_id, total_shots+1, total_shots)
+    notes = IF(user_role = "staff", a_notes, notes),
+    last_vac_date = IF(user_role = "staff", NOW(), last_vac_date),
+    total_shots = IF(user_role = "staff", total_shots+1, total_shots)
     WHERE
         patient_id = a_patient_id
     ;
@@ -161,6 +348,7 @@ DELIMITER ;;
 CREATE PROCEDURE create_user(
     a_firstname VARCHAR(30),
     a_lastname VARCHAR(30),
+    a_role VARCHAR(5),
     a_username VARCHAR(20),
     a_password VARCHAR(30)
 )
@@ -168,7 +356,7 @@ BEGIN
     DECLARE r_salt VARCHAR(16);
     SET r_salt = substring(MD5(RAND()),1,16);
     INSERT INTO users (firstname, lastname, role, username, password, salt)
-        VALUES (a_firstname, a_lastname, 'staff', a_username, SHA2(CONCAT(a_password,r_salt), 256), r_salt);
+        VALUES (a_firstname, a_lastname, a_role, a_username, SHA2(CONCAT(a_password,r_salt), 256), r_salt);
 END
 ;;
 DELIMITER ;
@@ -265,7 +453,7 @@ DELIMITER ;
 --
 -- add users
 --
-call create_user('Noah','Håkansson','flex','pass');
+call create_user('Noah','Håkansson','staff','flex','pass');
 call create_admin('Admin','Adminsson','admin','pass');
 call create_patient('Jon','Doe','18860522-1414','pfizer','here are some notes.');
 call create_patient('Alan','Smith','18530212-1515','moderna','');

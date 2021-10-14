@@ -1,0 +1,42 @@
+<%- include("basic-header", {title: title}); %>
+
+<% res = res[0] %>
+
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li><a href="/vacc/dashboard">Home</a></li>
+        <li class="list-item-active"><a href="/vacc/dashboard/patients">Patients</a></li>
+        <li><a href="/vacc/dashboard/settings">Settings</a></li>
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+
+        <div class="search">
+          <form id="usrform" class="search-field" action="/vacc/dashboard/patients/update" method="POST">
+            <!--<p>User</p>-->
+            <input hidden id="name" type="text" name="id" readonly value="<%= res.patient_id %>">
+            <p>Name</p>
+            <input id="name" type="text" name="name" readonly value="<%= res.name %>">
+            <p>Personal number</p>
+            <input id="name" type="text" name="pNumber" readonly value="<%= res.personal_number %>">
+            <p>Vaccine</p>
+            <input type="text" name="vaccine"  readonly value="<%= res.vaccine %>">
+            <p>Last vaccination</p>
+            <input type="text" readonly value="<%= res.last_vac_date %>">
+            <p>Total shots</p>
+            <input type="text" readonly value="<%= res.total_shots %>">
+            <p>Notes</p>
+            <textarea name="note" rows="6" cols="40" form="usrform"><%= res.notes %></textarea>
+            <input type="submit" id="search-button" value="Vaccinate" required>
+            <input type="button" id="search-button" name="cancel" value="Cancel" onClick="window.location.href='/vacc/dashboard/patients';" />
+          </form>
+        </div>
+
+    </div>
+</div>
+
+<%- include("footer"); %>

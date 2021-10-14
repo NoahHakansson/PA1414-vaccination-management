@@ -3,8 +3,8 @@
 <div id="wrapper">
   <div id="leftWrapper">
       <div id="listView" class="list">
-        <li class="list-item-active"><a href="/vacc/dashboard">Home</a></li>
-        <li><a href="/vacc/dashboard/users">Users</a></li>
+        <li><a href="/vacc/dashboard">Home</a></li>
+        <li class="list-item-active"><a href="/vacc/dashboard/users">Users</a></li>
         <li><a href="/vacc/dashboard/settings">Settings</a></li>
         <li><a href="/vacc/logout">Logout
         <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
@@ -12,9 +12,19 @@
     </div>
 
     <div id="rightWrapper">
+
+<div class="search">
+  <form class="search-field" action="/vacc/dashboard/users" method="POST">
+    <input type="search" name="search" placeholder="Search">
+    <input type="submit" id="search-button" value="Search">
+  </form>
+</div>
+
       <div class="list-table">
         <article>
-          <div id="list-table" class="article-header">Users</div>
+          <div id="list-table" class="article-header">Users
+            <a id="add-something" href="/vacc/dashboard/users/add">+Add user</a>
+          </div>
           <section id="list-table">
 <table>
     <tr class="tb-title">
@@ -26,12 +36,12 @@
 <% for (const row of res) { %>
     <tr>
         <td><%= row.user_id %></a></td>
-        <td><%= row.firstname %> <%= row.lastname %></td>
+        <td><%= row.name %></td>
         <td><%= row.role %></td>
         <td><%= row.username %></td>
         <td><a href="/vacc/dashboard/users/edit/<%= row.user_id %>">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </a>
+        </a> |
         <a href="/vacc/dashboard/users/delete/<%= row.user_id %>">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
         </a></td>
