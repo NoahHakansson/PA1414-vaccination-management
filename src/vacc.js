@@ -84,7 +84,7 @@ async function changeOwnPass(userId, oldPass, newPass) {
  * @returns {RowDataPacket} Resultset from the query.
  */
 async function adminChangePass(userId, newPass, cookieId) {
-    let sql = `CALL user_login(?,?);`;
+    let sql = `CALL admin_change_pass(?,?,?);`;
     let res;
 
     res = await db.query(sql,[userId, newPass, cookieId]);
