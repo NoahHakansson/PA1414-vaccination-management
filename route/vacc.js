@@ -16,7 +16,7 @@ var session;
 router.get("/dashboard", async (req,res) => {
     let pNumber = {};
     let data = {
-        title: "Welcome | Vaccination managment"
+        title: "Welcome | Vaccination management"
     };
 
     session=req.session;
@@ -57,7 +57,7 @@ router.get("/dashboard", async (req,res) => {
 // Dashboard patients page
 router.get("/dashboard/patients", async (req, res) => {
     let data = {
-        title: "Patients | Vaccination managment"
+        title: "Patients | Vaccination management"
     };
 
     session=req.session;
@@ -92,7 +92,7 @@ router.get("/dashboard/patients", async (req, res) => {
 // Dashboard users page
 router.get("/dashboard/users", async (req, res) => {
     let data = {
-        title: "Users | Vaccination managment"
+        title: "Users | Vaccination management"
     };
 
     session=req.session;
@@ -127,7 +127,7 @@ router.get("/dashboard/users", async (req, res) => {
 // login post form
 router.post("/user", urlencodedParser, async (req,res) => {
     let data = {
-        title: "User | Vaccination managment"
+        title: "User | Vaccination management"
     };
 
     data.res = await vacc.userLogin(req.body.username, req.body.password);
@@ -149,7 +149,7 @@ router.post("/user", urlencodedParser, async (req,res) => {
 // users search
 router.post("/dashboard/users", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Users | Vaccination managment"
+        title: "Users | Vaccination management"
     };
 
     session=req.session;
@@ -183,7 +183,7 @@ router.post("/dashboard/users", urlencodedParser, async (req,res) => {
 // POST create/add user
 router.post("/dashboard/users/add", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Add User | Vaccination managment"
+        title: "Add User | Vaccination management"
     };
 
     session=req.session;
@@ -222,7 +222,7 @@ router.post("/dashboard/users/add", urlencodedParser, async (req,res) => {
 // GET create/add user
 router.get("/dashboard/users/add", async (req, res) => {
     let data = {
-        title: "Add User | Vaccination managment",
+        title: "Add User | Vaccination management",
         usernames: []
     };
 
@@ -259,7 +259,7 @@ router.get("/dashboard/users/add", async (req, res) => {
 router.get("/dashboard/users/delete/:id", async (req, res) => {
     let id = req.params.id;
     let data = {
-        title: "Delete User | Vaccination managment",
+        title: "Delete User | Vaccination management",
         account: id
     };
 
@@ -294,7 +294,7 @@ router.get("/dashboard/users/delete/:id", async (req, res) => {
 // Delete user POST
 router.post("/dashboard/users/delete", urlencodedParser, async (req, res) => {
     let data = {
-        title: "Delete User | Vaccination managment"
+        title: "Delete User | Vaccination management"
     };
 
     session=req.session;
@@ -330,7 +330,7 @@ router.post("/dashboard/settings", urlencodedParser, async (req,res) => {
     let role = {};
     let id = {};
     let data = {
-        title: "User settings | Vaccination managment"
+        title: "User settings | Vaccination management"
     };
 
     session=req.session;
@@ -399,7 +399,7 @@ router.post("/dashboard/settings", urlencodedParser, async (req,res) => {
 router.get("/dashboard/settings", async (req, res) => {
     let id = {};
     let data = {
-        title: "User settings | Vaccination managment"
+        title: "User settings | Vaccination management"
     };
 
     session=req.session;
@@ -438,7 +438,7 @@ router.get("/dashboard/settings", async (req, res) => {
 // POST change/update user ADMIN
 router.post("/dashboard/users/edit", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Update user | Vaccination managment"
+        title: "Update user | Vaccination management"
     };
 
     session=req.session;
@@ -473,7 +473,7 @@ router.post("/dashboard/users/edit", urlencodedParser, async (req,res) => {
 router.get("/dashboard/users/edit/:id", async (req, res) => {
     let id = req.params.id;
     let data = {
-        title: "Update user | Vaccination managment",
+        title: "Update user | Vaccination management",
         account: id
     };
 
@@ -508,7 +508,7 @@ router.get("/dashboard/users/edit/:id", async (req, res) => {
 // patient search
 router.post("/dashboard/patients", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Patients | Vaccination managment"
+        title: "Patients | Vaccination management"
     };
 
     session=req.session;
@@ -542,7 +542,7 @@ router.post("/dashboard/patients", urlencodedParser, async (req,res) => {
 // POST change/update patient
 router.post("/dashboard/patients/update", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Update Patient | Vaccination managment"
+        title: "Update Patient | Vaccination management"
     };
 
     session=req.session;
@@ -578,7 +578,7 @@ router.post("/dashboard/patients/update", urlencodedParser, async (req,res) => {
 router.get("/dashboard/patients/update/:id", async (req, res) => {
     let id = req.params.id;
     let data = {
-        title: "Update Patient | Vaccination managment",
+        title: "Update Patient | Vaccination management",
         account: id
     };
 
@@ -613,7 +613,7 @@ router.get("/dashboard/patients/update/:id", async (req, res) => {
 // POST create/add patient
 router.post("/dashboard/patients/add", urlencodedParser, async (req,res) => {
     let data = {
-        title: "Add Patient | Vaccination managment"
+        title: "Add Patient | Vaccination management"
     };
 
     session=req.session;
@@ -663,7 +663,7 @@ router.post("/dashboard/patients/add", urlencodedParser, async (req,res) => {
 // GET create/add patient
 router.get("/dashboard/patients/add", async (req, res) => {
     let data = {
-        title: "Add Patient | Vaccination managment",
+        title: "Add Patient | Vaccination management",
         pNumbers: []
     };
 
@@ -700,7 +700,7 @@ router.get("/dashboard/patients/add", async (req, res) => {
 router.get("/dashboard/patients/delete/:id", async (req, res) => {
     let id = req.params.id;
     let data = {
-        title: "Delete Patient | Vaccination managment",
+        title: "Delete Patient | Vaccination management",
         account: id
     };
 
@@ -735,7 +735,7 @@ router.get("/dashboard/patients/delete/:id", async (req, res) => {
 // Delete patient POST
 router.post("/dashboard/patients/delete", urlencodedParser, async (req, res) => {
     let data = {
-        title: "Delete Patient | Vaccination managment"
+        title: "Delete Patient | Vaccination management"
     };
 
     session=req.session;
@@ -773,7 +773,7 @@ router.get("/logout",(req,res) => {
 
 router.get("/", (req, res) => {
     let data = {
-        title: "Welcome | Vaccination managment"
+        title: "Welcome | Vaccination management"
     };
 
     res.redirect("/vacc/login");
@@ -781,7 +781,7 @@ router.get("/", (req, res) => {
 
 router.get("/login", (req, res) => {
     let data = {
-        title: "Welcome | Vaccination managment"
+        title: "Welcome | Vaccination management"
     };
 
     session=req.session;
@@ -795,7 +795,7 @@ router.get("/login", (req, res) => {
 
 router.get("/about", (req, res) => {
     let data = {
-        title: "About | Vaccination managment"
+        title: "About | Vaccination management"
     };
 
     res.render("vacc/about", data);
