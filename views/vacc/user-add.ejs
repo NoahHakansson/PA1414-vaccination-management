@@ -66,18 +66,18 @@
 
    // Check if passwords match
     var check = function(){
-      if (document.getElementById('password').value ==
-          document.getElementById('confirm_password').value)
+      if(document.getElementById('password').value == "" ||
+          document.getElementById('confirm_password').value == "")
       {
-        document.getElementById('confirm_password').style.border = 'solid #47cc54 1px';
+        document.getElementById('confirm_password').style.border = 'none';
         document.getElementById('search-button').style.display = 'inline-block';
         document.getElementById('fake-button').style.display = 'none';
         document.getElementById('password_match').style.display = 'none';
       }
-      else if(document.getElementById('password').value == "" ||
-          document.getElementById('confirm_password').value == "")
+      else if (document.getElementById('password').value ==
+          document.getElementById('confirm_password').value)
       {
-        document.getElementById('confirm_password').style.border = 'none';
+        document.getElementById('confirm_password').style.border = 'solid #47cc54 1px';
         document.getElementById('search-button').style.display = 'inline-block';
         document.getElementById('fake-button').style.display = 'none';
         document.getElementById('password_match').style.display = 'none';

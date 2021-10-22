@@ -16,7 +16,7 @@
     <div id="rightWrapper">
 
         <div class="search">
-          <form id="usrform" class="search-field" action="/vacc/dashboard/users/edit" method="POST">
+          <form id="usrform" class="search-field" action="/vacc/dashboard/settings" method="POST">
             <!--<p>User</p>-->
             <input hidden id="name" type="text" name="id" readonly value="<%= res.user_id %>">
             <p>Name</p>
@@ -24,7 +24,7 @@
             <p>Role</p>
             <input id="name" type="text" name="name" readonly value="<%= res.role %>">
             <p>Old Password</p>
-            <input id="password" type="password" name="oldPass" required>
+            <input id="old-password" type="password" name="oldPass" required>
             <p>New Password</p>
             <input id="password" type="password" name="newPass" onkeyup='check();' required>
             <p>Repeat Password</p>
@@ -43,18 +43,18 @@
 
    // Check if passwords match
     var check = function(){
-      if (document.getElementById('password').value ==
-          document.getElementById('confirm_password').value)
+      if(document.getElementById('password').value == "" ||
+          document.getElementById('confirm_password').value == "")
       {
-        document.getElementById('confirm_password').style.border = 'solid #47cc54 1px';
+        document.getElementById('confirm_password').style.border = 'none';
         document.getElementById('search-button').style.display = 'inline-block';
         document.getElementById('fake-button').style.display = 'none';
         document.getElementById('password_match').style.display = 'none';
       }
-      else if(document.getElementById('password').value == "" ||
-          document.getElementById('confirm_password').value == "")
+      else if (document.getElementById('password').value ==
+          document.getElementById('confirm_password').value)
       {
-        document.getElementById('confirm_password').style.border = 'none';
+        document.getElementById('confirm_password').style.border = 'solid #47cc54 1px';
         document.getElementById('search-button').style.display = 'inline-block';
         document.getElementById('fake-button').style.display = 'none';
         document.getElementById('password_match').style.display = 'none';

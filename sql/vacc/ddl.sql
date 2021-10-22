@@ -2,21 +2,25 @@
 USE vacc;
 
 -- Drop tables
+select "dropping tables" as "";
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS patients;
 
 -- Table creation
+select "table creating" as "";
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT NOT NULL,
     firstname VARCHAR(30),
     lastname VARCHAR(30),
-    role VARCHAR(5),
+    role VARCHAR(12),
     username VARCHAR(20),
     password VARCHAR(256),
     salt VARCHAR(16),
+    personal_number VARCHAR(13),
 
     PRIMARY KEY (user_id),
-    UNIQUE KEY (username)
+    UNIQUE KEY (username),
+    UNIQUE KEY (personal_number)
 )
 ENGINE INNODB
 CHARSET utf8
@@ -45,10 +49,12 @@ COLLATE utf8_swedish_ci
 --
 -- Procedures
 --
+select "Procedures" as "";
 
 --
 -- Create procedure for select * from users
 --
+select "-- Create procedure for select * from users" as "";
 DROP PROCEDURE IF EXISTS show_users;
 DELIMITER ;;
 CREATE PROCEDURE show_users()
@@ -248,8 +254,8 @@ DROP PROCEDURE IF EXISTS change_own_pass;
 DELIMITER ;;
 CREATE PROCEDURE change_own_pass(
     a_user_id INT,
-    a_old_pass VARCHAR(256),
-    a_new_pass VARCHAR(256)
+    a_old_pass VARCHAR(64),
+    a_new_pass VARCHAR(64)
 )
 BEGIN
     UPDATE users
@@ -270,8 +276,8 @@ DROP PROCEDURE IF EXISTS admin_change_pass;
 DELIMITER ;;
 CREATE PROCEDURE admin_change_pass(
     a_user_id INT,
-    a_password VARCHAR(256),
-    cookie_id VARCHAR(256)
+    a_password VARCHAR(64),
+    cookie_id VARCHAR(64)
 )
 BEGIN
     DECLARE user_role VARCHAR(5);
@@ -341,6 +347,29 @@ END
 DELIMITER ;
 
 --
+-- Procedure for creating PATIENT user accounts
+--
+select "-- Create procedure for select * from users" as "";
+DROP PROCEDURE IF EXISTS create_patient_user;
+DELIMITER ;;
+CREATE PROCEDURE create_patient_user(
+    a_firstname VARCHAR(30),
+    a_lastname VARCHAR(30),
+    a_role VARCHAR(12),
+    a_username VARCHAR(20),
+    a_password VARCHAR(30),
+    a_personal_number VARCHAR(13)
+)
+BEGIN
+    DECLARE r_salt VARCHAR(16);
+    SET r_salt = substring(MD5(RAND()),1,16);
+    INSERT INTO users (firstname, lastname, role, username, password, salt, personal_number)
+    VALUES (a_firstname, a_lastname, a_role, a_username, SHA2(CONCAT(a_password,r_salt), 256), r_salt, a_personal_number);
+END
+;;
+DELIMITER ;
+
+--
 -- Procedure for creating REGULAR user accounts
 --
 DROP PROCEDURE IF EXISTS create_user;
@@ -348,7 +377,7 @@ DELIMITER ;;
 CREATE PROCEDURE create_user(
     a_firstname VARCHAR(30),
     a_lastname VARCHAR(30),
-    a_role VARCHAR(5),
+    a_role VARCHAR(12),
     a_username VARCHAR(20),
     a_password VARCHAR(30)
 )
@@ -361,10 +390,52 @@ END
 ;;
 DELIMITER ;
 
+--
+-- Create procedure for getting patient user personal_number from cookie_id
+--
+DROP PROCEDURE IF EXISTS get_user_personal_number;
+DELIMITER ;;
+CREATE PROCEDURE get_user_personal_number(
+    a_user VARCHAR(256)
+)
+BEGIN
+    SELECT
+        personal_number
+    FROM users WHERE a_user = SHA2(CONCAT(username,salt),256);
+END
+;;
+DELIMITER ;
+
+
+--
+-- Create procedure for getting patient user acc, patient info
+--
+select "Create procedure for getting patient user acc, patient info" as "";
+DROP PROCEDURE IF EXISTS get_patient_info;
+DELIMITER ;;
+CREATE PROCEDURE get_patient_info(
+    a_personal_number VARCHAR(20)
+)
+BEGIN
+    SELECT
+    patient_id,
+    CONCAT(firstname, " ", lastname) AS "name",
+    personal_number,
+    vaccine,
+    last_vac_date,
+    total_shots,
+    notes
+    FROM patients
+    WHERE personal_number = a_personal_number
+    ;
+END
+;;
+DELIMITER ;
 
 --
 -- Procedure for creating ADMIN user accounts
 --
+select "Procedure for creating ADMIN user accounts" as "";
 DROP PROCEDURE IF EXISTS create_admin;
 DELIMITER ;;
 CREATE PROCEDURE create_admin(
@@ -385,6 +456,7 @@ DELIMITER ;
 --
 -- return username encrypted with salt if login is correct
 --
+select "return username encrypted with salt if login is correct" as "";
 DROP PROCEDURE IF EXISTS user_login;
 DELIMITER ;;
 CREATE PROCEDURE user_login(
@@ -403,6 +475,7 @@ DELIMITER ;
 -- FOR TESTING
 -- return role of user from username
 --
+select "-- Create procedure for select * from users" as "";
 DROP PROCEDURE IF EXISTS get_user_role_test;
 DELIMITER ;;
 CREATE PROCEDURE get_user_role_test(
@@ -412,6 +485,22 @@ BEGIN
     SELECT
         role, CONCAT(firstname," ",lastname) AS name
     FROM users WHERE a_user = username;
+END
+;;
+DELIMITER ;
+
+--
+-- return ID and Role of user from encrypted username
+--
+DROP PROCEDURE IF EXISTS get_user_id;
+DELIMITER ;;
+CREATE PROCEDURE get_user_id(
+    a_user VARCHAR(256)
+)
+BEGIN
+    SELECT
+        user_id, role
+    FROM users WHERE a_user = SHA2(CONCAT(username,salt),256);
 END
 ;;
 DELIMITER ;

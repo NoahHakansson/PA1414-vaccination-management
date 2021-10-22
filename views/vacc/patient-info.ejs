@@ -1,0 +1,37 @@
+<%- include("basic-header", {title: title}); %>
+
+<% res = res[0] %>
+
+<div id="wrapper">
+  <div id="leftWrapper">
+      <div id="listView" class="list">
+        <li><a href="/vacc/logout">Logout
+        <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </div>
+    </div>
+
+    <div id="rightWrapper">
+
+        <div class="search">
+          <form id="usrform" class="search-field">
+            <!--<p>User</p>-->
+            <input hidden id="name" type="text" name="id" readonly value="<%= res.patient_id %>">
+            <p>Name</p>
+            <input id="name" type="text" name="name" readonly value="<%= res.name %>">
+            <p>Personal number</p>
+            <input id="name" type="text" name="pNumber" readonly value="<%= res.personal_number %>">
+            <p>Vaccine</p>
+            <input type="text" name="vaccine"  readonly value="<%= res.vaccine %>">
+            <p>Last vaccination</p>
+            <input type="text" readonly value="<%= res.last_vac_date %>">
+            <p>Total shots</p>
+            <input type="text" readonly value="<%= res.total_shots %>">
+            <p>Notes</p>
+            <textarea name="note" rows="6" cols="40" form="usrform" readonly><%= res.notes %></textarea>
+          </form>
+        </div>
+
+    </div>
+</div>
+
+<%- include("footer"); %>

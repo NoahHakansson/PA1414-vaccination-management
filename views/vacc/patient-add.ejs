@@ -20,11 +20,16 @@
             <p>Lastname</p>
             <input type="text" name="lastname" required>
             <p>Personal Number</p>
-            <input id="pNumber" onkeyup='patientCheck(); validateInput();' type="text" name="pNumber" required>
+            <input id="pNumber" onkeyup='validateInput();' type="text" name="pNumber" required>
             <span style="display: none; color: #cc4747;" id="patient_exists">Patient already exists</span>
             <span style="display: none; color: #cc4747;" id="patient_number">Not a valid personal number</span>
             <p>Vaccine</p>
-            <input type="text" name="vaccine" required>
+            <select name="vaccine" required>
+              <option value="" disabled selected>Choose one...</option>
+              <option value="Pfizer">Pfizer</option>
+              <option value="Moderna">Moderna</option>
+              <option value="Astra zeneca">Astra zeneca</option>
+            </select>
             <p>Notes</p>
             <textarea name="note" rows="6" cols="40" form="usrform"></textarea>
             <input type="submit" id="search-button" value="Create" required>
@@ -48,38 +53,49 @@
     var validateInput = function () {
       // regex for swedish personal number
       var format = /^(19|20)?\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)((0[1-9])|(1|2)[0-9]|(30|31))-\d{4}$/;
-      if (document.getElementById("pNumber").value.match(format)) {
-        // if it matches format
-        document.getElementById('pNumber').style.border = 'solid #47cc54 1px';
-        document.getElementById('patient_number').style.display = 'none';
-        document.getElementById('search-button').style.display = 'inline-block';
-        document.getElementById('fake-button').style.display = 'none';
-        return true;
-      } else {
-        // if it doesnt match format
-        document.getElementById('pNumber').style.border = 'solid #cc4747 1px';
-        document.getElementById('patient_number').style.display = 'inline-block';
-        document.getElementById('search-button').style.display = 'none';
-        document.getElementById('fake-button').style.display = 'inline-block';
-        return false;
-      }
-    }
-
-
-   // checks if username is available
-    var patientCheck = function(){
       if (numbers.indexOf(document.getElementById('pNumber').value) >= 0) {
         document.getElementById('pNumber').style.border = 'solid #cc4747 1px';
         document.getElementById('search-button').style.display = 'none';
         document.getElementById('fake-button').style.display = 'inline-block';
         document.getElementById('patient_exists').style.display = 'inline-block';
       }
-      else{
+      if (numbers.indexOf(document.getElementById('pNumber').value) < 0){
         document.getElementById('pNumber').style.border = 'solid #47cc54 1px';
         document.getElementById('search-button').style.display = 'inline-block';
         document.getElementById('fake-button').style.display = 'none';
         document.getElementById('patient_exists').style.display = 'none';
       }
+      if (document.getElementById("pNumber").value.match(format) && numbers.indexOf(document.getElementById('pNumber').value) < 0) {
+        // if it matches format
+        document.getElementById('pNumber').style.border = 'solid #47cc54 1px';
+        document.getElementById('patient_number').style.display = 'none';
+        document.getElementById('search-button').style.display = 'inline-block';
+        document.getElementById('fake-button').style.display = 'none';
+      }
+      else {
+        // if it doesnt match format
+        document.getElementById('pNumber').style.border = 'solid #cc4747 1px';
+        document.getElementById('patient_number').style.display = 'inline-block';
+        document.getElementById('search-button').style.display = 'none';
+        document.getElementById('fake-button').style.display = 'inline-block';
+      }
+    }
+
+
+   // checks if pNumber is available
+    var patientCheck = function(){
+    //  if (numbers.indexOf(document.getElementById('pNumber').value) >= 0) {
+    //    document.getElementById('pNumber').style.border = 'solid #cc4747 1px';
+    //    document.getElementById('search-button').style.display = 'none';
+    //    document.getElementById('fake-button').style.display = 'inline-block';
+    //    document.getElementById('patient_exists').style.display = 'inline-block';
+    //  }
+    //  else{
+    //    document.getElementById('pNumber').style.border = 'solid #47cc54 1px';
+    //    document.getElementById('search-button').style.display = 'inline-block';
+    //    document.getElementById('fake-button').style.display = 'none';
+    //    document.getElementById('patient_exists').style.display = 'none';
+    //  }
     }
   </script>
 

@@ -15,12 +15,16 @@ module.exports = {
     getUsernames: getUsernames,
     getPersonalNumbers: getPersonalNumbers,
     createUser: createUser,
+    createPatientUser: createPatientUser,
     deletePatient: deletePatient,
     showPatientsId: showPatientsId,
     createPatient: createPatient,
+    getPatientInfo: getPatientInfo,
+    userPersonalNumber: userPersonalNumber,
     showUsersId: showUsersId,
     showUsersSearch: showUsersSearch,
     deleteUser: deleteUser,
+    userId: userId,
     userRole: userRole
 };
 
@@ -60,6 +64,24 @@ async function userRole(user) {
 }
 
 /**
+ * handle encrypted userid and get user ID back
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function userId(user) {
+    let sql = `CALL get_user_id(?);`;
+    let res;
+
+    res = await db.query(sql,[user]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
  * user change their own password.
  *
  * @async
@@ -74,7 +96,7 @@ async function changeOwnPass(userId, oldPass, newPass) {
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);
 
-    return res[0];
+    return res;
 }
 
 /**
@@ -178,6 +200,60 @@ async function createAdmin(firstname, lastname, username, password) {
     let res;
 
     res = await db.query(sql,[firstname, lastname, username, password]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * Create a new patient user account.
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function createPatientUser(firstname, lastname, role, username, password, pNumber) {
+    let sql = `CALL create_patient_user(?,?,?,?,?,?);`;
+    let res;
+
+    res = await db.query(sql,[firstname, lastname, role, username, password, pNumber]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * get patient info from personal_number (perfect match)
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function getPatientInfo(pNumber) {
+    let sql = `CALL get_patient_info(?);`;
+    let res;
+
+    res = await db.query(sql,[pNumber]);
+    // print debug info
+    console.info(`SQL: ${sql} got ${res.length} rows.`);
+    console.info(res);
+
+    return res[0];
+}
+
+/**
+ * handle encrypted userid and get user personal_number back
+ *
+ * @async
+ * @returns {RowDataPacket} Resultset from the query.
+ */
+async function userPersonalNumber(user) {
+    let sql = `CALL get_user_personal_number(?);`;
+    let res;
+
+    res = await db.query(sql,[user]);
     // print debug info
     console.info(`SQL: ${sql} got ${res.length} rows.`);
     console.info(res);

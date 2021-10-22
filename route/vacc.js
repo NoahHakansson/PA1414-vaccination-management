@@ -14,6 +14,7 @@ var session;
 
 // Main dashboard
 router.get("/dashboard", async (req,res) => {
+    let pNumber = {};
     let data = {
         title: "Welcome | Vaccination managment"
     };
@@ -29,6 +30,14 @@ router.get("/dashboard", async (req,res) => {
             else if(data.res[0].role == "admin"){
                 console.log("!!! Logging in user as ADMIN");
                 res.render("vacc/dashboard-admin", data);
+            }
+            else if(data.res[0].role == "patient"){
+                console.log("!!! Logging in user as PATIENT");
+                pNumber = await vacc.userPersonalNumber(session.userid);
+                pNumber = pNumber[0].personal_number;
+                console.log(pNumber);
+                data.res = await vacc.getPatientInfo(pNumber);
+                res.render("vacc/patient-info", data);
             }
             else{
                 console.log("!!! Cant find role, logging out user.");
@@ -316,6 +325,116 @@ router.post("/dashboard/users/delete", urlencodedParser, async (req, res) => {
     }
 });
 
+// POST settings page
+router.post("/dashboard/settings", urlencodedParser, async (req,res) => {
+    let role = {};
+    let id = {};
+    let data = {
+        title: "User settings | Vaccination managment"
+    };
+
+    session=req.session;
+    if(session.userid){
+        try {
+            role = await vacc.userId(session.userid);
+            id = role[0].user_id;
+            role = role[0].role;
+            // change pass
+            data.res = await vacc.changeOwnPass(req.body.id,req.body.oldPass,req.body.newPass);
+            console.log("changing user pass");
+
+            // Success
+            if(data.res.affectedRows > 0){
+                console.log("change password successfull!");
+                if (role == "staff") {
+                    console.log("!!! user is STAFF");
+                    console.log(id);
+                    data.res = await vacc.showUsersId(req.body.id);
+                    res.render("vacc/staff-settings-success", data);
+                }
+                else if(role == "admin"){
+                    console.log("!!! user is ADMIN");
+                    console.log(id);
+                    data.res = await vacc.showUsersId(req.body.id);
+                    res.render("vacc/admin-settings-success", data);
+                }
+                else{
+                    console.log("!!! Cant find role, logging out user.");
+                    res.redirect("/vacc/logout");
+                }
+            }
+            // Failed
+            else{
+                console.log("change password failed!");
+                if (role == "staff") {
+                    console.log("!!! user is STAFF");
+                    console.log(id);
+                    data.res = await vacc.showUsersId(req.body.id);
+                    res.render("vacc/staff-settings-fail", data);
+                }
+                else if(role == "admin"){
+                    console.log("!!! user is ADMIN");
+                    console.log(id);
+                    data.res = await vacc.showUsersId(req.body.id);
+                    res.render("vacc/admin-settings-fail", data);
+                }
+                else{
+                    console.log("!!! Cant find role, logging out user.");
+                    res.redirect("/vacc/logout");
+                }
+            }
+        // catch error
+        } catch (e) {
+            /* handle error */
+            console.log("!!! Error cought, redirecting to dashboard.");
+            res.redirect("/vacc/dashboard");
+        }
+    }else{
+        console.log("!!! no session, redirecting to login.");
+        res.redirect("/vacc/login");
+    }
+});
+
+// GET settings page
+router.get("/dashboard/settings", async (req, res) => {
+    let id = {};
+    let data = {
+        title: "User settings | Vaccination managment"
+    };
+
+    session=req.session;
+    if(session.userid){
+        try {
+            data.res = await vacc.userRole(session.userid);
+            id = await vacc.userId(session.userid);
+            id = id[0].user_id;
+            if (data.res[0].role == "staff") {
+                console.log("!!! user is STAFF");
+                console.log(id);
+                data.res = await vacc.showUsersId(id);
+                res.render("vacc/staff-settings", data);
+            }
+            else if(data.res[0].role == "admin"){
+                console.log("!!! user is ADMIN");
+                console.log(id);
+                data.res = await vacc.showUsersId(id);
+                res.render("vacc/admin-settings", data);
+            }
+            else{
+                console.log("!!! Cant find role, logging out user.");
+                res.redirect("/vacc/logout");
+            }
+        } catch (e) {
+            /* handle error */
+            console.log("!!! Error cought, redirecting to dashboard.");
+            res.redirect("/vacc/dashboard");
+        }
+    }else{
+        console.log("!!! no session, redirecting to login.");
+        res.redirect("/vacc/login");
+    }
+});
+
 // POST change/update user ADMIN
 router.post("/dashboard/users/edit", urlencodedParser, async (req,res) => {
     let data = {
@@ -506,13 +625,23 @@ router.post("/dashboard/patients/add", urlencodedParser, async (req,res) => {
                 res.redirect("/vacc/dashboard");
             }
             else if(data.res[0].role == "staff"){
+                console.log("Adding patient");
+                // creating patient
                 data.res = await vacc.createPatient
                     (req.body.firstname,
                     req.body.lastname,
                     req.body.pNumber,
                     req.body.vaccine,
                     req.body.note);
-                console.log("Adding patient");
+                // creating patient user account
+                data.res = await vacc.createPatientUser(
+                    req.body.firstname,
+                    req.body.lastname,
+                    "patient",
+                    req.body.firstname,
+                    req.body.pNumber,
+                    req.body.pNumber);
+                console.log(data.res);
                 res.redirect("/vacc/dashboard/patients");
             }
             else{
@@ -522,6 +651,7 @@ router.post("/dashboard/patients/add", urlencodedParser, async (req,res) => {
         } catch (e) {
             /* handle error */
             console.log("!!! Error cought, redirecting to dashboard.");
+            console.log(e);
             res.redirect("/vacc/dashboard");
         }
     }else{

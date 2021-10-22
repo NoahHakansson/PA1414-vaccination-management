@@ -43,6 +43,11 @@ a {
   padding: 5px;
 }
 
+#change-pass-message{
+  padding-bottom: 20px !important;
+  display: block;
+}
+
 #add-something:hover {
   background-color: rgb(25, 28, 29);
 
@@ -86,7 +91,7 @@ a {
   -o-transition: all .20s ease-in;
   transition: all .20s ease-in;
 }
-.search input {
+.search input, select {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: rgb(26, 29, 30);
